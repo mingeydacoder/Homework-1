@@ -17,9 +17,9 @@ contract LiaoToken is IERC20 {
     // TODO: you might need to declare several state variable here
     mapping(address account => uint256) private _balances;
     mapping(address account => bool) isClaim;
-    uint256 private amount;
+    mapping(address => mapping(address => uint256)) private _allowances;
     uint256 private _totalSupply;
-    address private user;
+    uint256 private _decimals;
     string private _name;
     string private _symbol;
 
@@ -60,6 +60,15 @@ contract LiaoToken is IERC20 {
 
     function transfer(address to, uint256 amount) external returns (bool) {
         // TODO: please add your implementaiton here
+            require(to != address(0), "ERC20: transfer to the zero address");
+            require(amount <= _balances[msg.sender], "ERC20: transfer amount exceeds balance");
+    
+            _balances[msg.sender] -= amount;
+            _balances[to] += amount;
+    
+            emit Transfer(msg.sender, to, amount);
+    
+        return true;
     }
 
     function transferFrom(address from, address to, uint256 value) external returns (bool) {
