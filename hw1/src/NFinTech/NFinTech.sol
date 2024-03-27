@@ -116,10 +116,45 @@ contract NFinTech is IERC721 {
     }
 
     function safeTransferFrom(address from, address to, uint256 tokenId, bytes calldata data) public {
-        // TODO: please add your implementaiton here
+        _transfer(from, to, tokenId);
+        require(_checkOnERC721Received(from, to, tokenId, data), "ERC721: transfer to non ERC721Receiver implementer");
     }
 
     function safeTransferFrom(address from, address to, uint256 tokenId) public {
-        // TODO: please add your implementaiton here
+        _transfer(from, to, tokenId);
+        require(_checkOnERC721Received(from, to, tokenId, ""), "ERC721: transfer to non ERC721Receiver implementer");
     }
+
+    function _checkOnERC721Received(address from, address to, uint256 tokenId, bytes memory _data) private returns (bool) {
+    if (!isContract(to)) {
+        return true;
+    }
+    bytes4 retval = IERC721TokenReceiver(to).onERC721Received(msg.sender, from, tokenId, _data);
+    return (retval == IERC721TokenReceiver(to).onERC721Received.selector);
+    }
+
+    function _transfer(address from, address to, uint256 tokenId) private {
+        require(ownerOf(tokenId) == from, "ERC721: transfer of token that is not own");
+        require(to != address(0), "ERC721: transfer to the zero address");
+
+        _approve(address(0), tokenId);
+        _balances[from]--;
+        _balances[to]++;
+
+        _owner[tokenId] = to;
+        emit Transfer(from, to, tokenId);
+    }
+
+    function _approve(address to, uint256 tokenId) private {
+        _tokenApproval[tokenId] = to;
+        emit Approval(ownerOf(tokenId), to, tokenId);
+    }
+
+    function isContract(address addr) internal view returns (bool) {
+    uint256 size;
+    assembly {
+        size := extcodesize(addr)
+    }
+    return size > 0;
+}
 }
