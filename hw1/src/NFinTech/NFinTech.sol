@@ -117,12 +117,12 @@ contract NFinTech is IERC721 {
 
     function safeTransferFrom(address from, address to, uint256 tokenId, bytes calldata data) public {
         _transfer(from, to, tokenId);
-        require(_checkOnERC721Received(from, to, tokenId, data), "ERC721: transfer to non ERC721Receiver implementer");
+        require(_checkOnERC721Received(from, to, tokenId, data));
     }
 
     function safeTransferFrom(address from, address to, uint256 tokenId) public {
         _transfer(from, to, tokenId);
-        require(_checkOnERC721Received(from, to, tokenId, ""), "ERC721: transfer to non ERC721Receiver implementer");
+        require(_checkOnERC721Received(from, to, tokenId, ""));
     }
 
     function _checkOnERC721Received(address from, address to, uint256 tokenId, bytes memory _data) private returns (bool) {
@@ -134,8 +134,8 @@ contract NFinTech is IERC721 {
     }
 
     function _transfer(address from, address to, uint256 tokenId) private {
-        require(ownerOf(tokenId) == from, "ERC721: transfer of token that is not own");
-        require(to != address(0), "ERC721: transfer to the zero address");
+        require(ownerOf(tokenId) == from);
+        require(to != address(0));
 
         _approve(address(0), tokenId);
         _balances[from]--;
