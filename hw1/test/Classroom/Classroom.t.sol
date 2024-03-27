@@ -8,6 +8,7 @@ import {StudentV1, StudentV2, StudentV3} from "../../src/Classroom/Classroom.sol
 
 interface IStudentV1 {
     function register() external returns (uint256);
+    
 }
 
 contract ClassroomV1 {
