@@ -23,15 +23,12 @@ interface IClassroomV2 {
 }
 
 contract StudentV2 {
-    uint256 private secondReturnValue; 
-
-    function register() external returns (uint256) {
-        if (secondReturnValue == 0) {
-            secondReturnValue = 123; 
+    function register() external view returns (uint256) {
+        if (!IClassroomV2(msg.sender).isEnrolled()) {
             return 1000;
         } 
         else {
-            return secondReturnValue;
+            return 123;
         }
     }
 }
@@ -41,7 +38,7 @@ contract StudentV3 {
     function register() external view returns (uint256) {
         uint256 remainingGas = gasleft();
 
-        if (remainingGas > 7000) {
+        if (remainingGas > 6857) {
             return 1000; 
         } 
         else {

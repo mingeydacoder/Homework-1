@@ -59,7 +59,6 @@ contract LiaoToken is IERC20 {
     }
 
     function transfer(address to, uint256 amount) external returns (bool) {
-        // TODO: please add your implementaiton here
 
         require(to != address(0));
         require(amount <= _balances[msg.sender]);
@@ -73,7 +72,6 @@ contract LiaoToken is IERC20 {
     }
 
     function transferFrom(address from, address to, uint256 value) external returns (bool) {
-        // TODO: please add your implementaiton here
         
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
@@ -90,14 +88,14 @@ contract LiaoToken is IERC20 {
     }
 
     function approve(address spender, uint256 amount) external returns (bool) {
-        // TODO: please add your implementaiton here
+
         _allowances[msg.sender][spender] = amount;
         emit Approval(msg.sender, spender, amount);
         return true;
     }
 
     function allowance(address owner, address spender) public view returns (uint256) {
-        // TODO: please add your implementaiton here
+
         return _allowances[owner][spender];
     }
 }
