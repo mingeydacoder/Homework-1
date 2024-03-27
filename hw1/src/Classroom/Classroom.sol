@@ -5,8 +5,15 @@ pragma solidity ^0.8.0;
 contract StudentV1 {
     // Note: You can declare some state variable
 
+    uint256 private secondReturnValue; 
+
     function register() external returns (uint256) {
-        // TODO: please add your implementaiton here
+        if (secondReturnValue == 0) {
+            secondReturnValue = 123; 
+            return 1000;
+        } else {
+            return secondReturnValue;
+        }
     }
 }
 
@@ -16,14 +23,29 @@ interface IClassroomV2 {
 }
 
 contract StudentV2 {
-    function register() external view returns (uint256) {
-        // TODO: please add your implementaiton here
+    uint256 private secondReturnValue; 
+
+    function register() external returns (uint256) {
+        if (secondReturnValue == 0) {
+            secondReturnValue = 123; 
+            return 1000;
+        } 
+        else {
+            return secondReturnValue;
+        }
     }
 }
 
 /* Problem 3 Interface & Contract */
 contract StudentV3 {
     function register() external view returns (uint256) {
-        // TODO: please add your implementaiton here
+        uint256 remainingGas = gasleft();
+
+        if (remainingGas > 7000) {
+            return 1000; 
+        } 
+        else {
+            return 123; 
+        }
     }
 }
